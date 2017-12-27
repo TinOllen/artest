@@ -120,7 +120,7 @@
     	imageData = context.getImageData(0, 0, video_canvas.width, video_canvas.height);
 		processMarkers();
    	}
-	var rotMatrix;
+	var quaternion;
 	var getObjectTransformed = function(){
 		var corners = markers[0].corners;
 		corners.forEach(function(corner){
@@ -129,10 +129,12 @@
 		});
 		var pose = posit.pose(corners);
 		rotMatrix = [].concat.apply([],pose.bestRotation)
+		var quat = new BABYLON.Quaternion();
+		quaternion = quat.fromRotationMatrix(rotMatrix)
 		
 		//
 		
-		return rotMatrix;
+		return quaternion;
 	};
 	
 	var scene = createScene(); //create aruco ardetector, create babylon scene	
