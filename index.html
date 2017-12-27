@@ -44,7 +44,7 @@
 	<div id="canvasZone">
 		<canvas id="renderCanvas" width="320" height="240" ></canvas>
 		<!-- <video id="video" src="output_4.ogg" width="320" height="240" autoplay></video> -->
-		<img id="video"src="marker.png" width="320" height="240">
+		<img id="video" src="marker.png" width="320" height="240">
 		<div id="fps"></div>
 		
 	</div>
@@ -72,8 +72,8 @@
 	video_canvas.height = 240;
         var context = video_canvas.getContext("2d");
 	var imageData; 
-	var detector = new AR.Detector();
 	var markers; 	//array of AR.Marker objects 
+	var detector = new AR.Detector();
 	var engine = new BABYLON.Engine(canvas, true); 
 		
 	
