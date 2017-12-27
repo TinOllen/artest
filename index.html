@@ -74,6 +74,8 @@
 	var imageData; 
 	var markers; 	//array of AR.Marker objects 
 	var detector = new AR.Detector();
+	var modelSize = 50; // real size of marker (mm)
+	var posit = new POS.Posit(modelSize, canvas.width);
 	var engine = new BABYLON.Engine(canvas, true); 
 		
 	
@@ -117,7 +119,16 @@
        	context.drawImage(video, 0, 0, video_canvas.width, video_canvas.height);
     	imageData = context.getImageData(0, 0, video_canvas.width, video_canvas.height);
 		processMarkers();
-   	}	
+   	}
+	
+	var getObjectTransformed = function(){
+		var corners = marker.corners;
+		corners forEach(function(corner){
+			corner.x = corner.x - (canvas.width / 2);
+		  	corner.y = (canvas.height / 2) - corner.y;
+		});
+		var pose = posit.pose(corners);			
+	};
 	
 	var scene = createScene(); //create aruco ardetector, create babylon scene	
 		
@@ -128,10 +139,8 @@
 		fpsMeter.tickStart(); //fpsMeter
 		//detect markers, then set translation v and rotation quat using POSIT and glmatrix
 		snapshot(function() {
-			markers = detector.detect(imageData);
-		
-			//getObjectTransform
-		
+			markers = detector.detect(imageData);		
+			getObjectTransformed()		
 			return markers;		
 		});
 		scene.render();
