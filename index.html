@@ -129,12 +129,12 @@
 		});
 		var pose = posit.pose(corners);
 		rotMatrix = [].concat.apply([],pose.bestRotation)
-		var quat = new BABYLON.Quaternion();
-		quaternion = quat.fromRotationMatrix(rotMatrix)
+		//var quat = new BABYLON.Quaternion();
+		//quaternion = quat.fromRotationMatrix(rotMatrix)
 		
 		//
 		
-		return quaternion;
+		//return quaternion;
 	};
 	
 	var scene = createScene(); //create aruco ardetector, create babylon scene	
