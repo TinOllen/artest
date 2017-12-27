@@ -77,6 +77,7 @@
 	var detector = new AR.Detector();
 	var modelSize = 50; // real size of marker (mm)
 	var posit = new POS.Posit(modelSize, canvas.width);
+	var transformMatrix = mat4.create();
 	var engine = new BABYLON.Engine(canvas, true); 
 		
 	
@@ -140,11 +141,9 @@
 		var translationVector = Float32Array.from(pose.bestTranslation)
 		//scale
 		var scaleVector = Float32Array.from([1,1,1]);
-		
-		var transformMatrix = mat4.create();
+			
 		mat4.fromRotationTranslationScale(transformMatrix, quaternion, translationVector, scaleVector);
-		camera.freezeProjectionMatrix(transformMatrix);	
-		
+				
 		transforms = [pose,quaternion,translationVector,scaleVector];
 		return transforms;
 	};
@@ -161,7 +160,8 @@
 			markers = detector.detect(imageData);				
 			return markers;		
 		});
-		getObjectTransformed();	
+		getObjectTransformed();
+		camera.freezeProjectionMatrix(transformMatrix);	
 		scene.render();
 		fpsMeter.tick(); //fpsMeter
 	});
