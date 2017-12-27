@@ -120,15 +120,15 @@
     	imageData = context.getImageData(0, 0, video_canvas.width, video_canvas.height);
 		processMarkers();
    	}
-	var pose;
+	var rotMatrix;
 	var getObjectTransformed = function(){
 		var corners = markers[0].corners;
 		corners.forEach(function(corner){
 			corner.x = corner.x - (canvas.width / 2);
 		  	corner.y = (canvas.height / 2) - corner.y;
 		});
-		pose = posit.pose(corners);
-		var rotMatrix = [].concat.apply([],pose.bestRotation)
+		var pose = posit.pose(corners);
+		rotMatrix = [].concat.apply([],pose.bestRotation)
 		
 		//
 		
