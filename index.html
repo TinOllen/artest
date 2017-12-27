@@ -7,6 +7,7 @@
 	
 	<script src="cv.js"></script>
 	<script src="babylon.custom.js"></script>
+	<script src="fpsmeter.js"></script>
 
 
 	<style>
@@ -61,9 +62,9 @@
 	
 	var canvas = document.getElementById("renderCanvas"); //canvas for rendering 3d
 	var video_canvas = document.createElement("canvas"); //canvas for video capture. Not appended. Same size as "renderCanvas"
-    video_canvas.width = 320;
+        video_canvas.width = 320;
 	video_canvas.height = 240;
-    var context = video_canvas.getContext("2d");
+        var context = video_canvas.getContext("2d");
 	var imageData; 
 	var detector = new AR.Detector();
 	var engine = new BABYLON.Engine(canvas, true);  	
@@ -111,18 +112,14 @@
    	}	
 
 	
+	var scene = createScene(); //create aruco ardetector, create babylon scene	
 	
-	//create aruco ardetector, create babylon scene
-	
-	var scene = createScene(); 	
-	
-	
-	
-	engine.runRenderLoop(function () {  //render loop w/requestAnimFrame
+	engine.runRenderLoop(function () {  //render loop w/requestAnimFrame. 
+		//detect markers, then set translation v and rotation quat using POSIT and glmatrix
 		snapshot(function() {
 			var markers = detector.detect(imageData);
 		
-			//setNewProjectionMatrix
+			//getObjectTransform
 		
 			return markers;		
 		});
