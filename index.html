@@ -44,12 +44,15 @@
 	<div id="canvasZone">
 		<canvas id="renderCanvas" width="320" height="240" ></canvas>
 		<video id="video" src="output_4.ogg" width="320" height="240" autoplay></video>
+		<div id="fps"></div>
 		
 	</div>
 	
 	<script>
-	
-	
+	var fps = document.getElementById("fps");
+	var fpsMeter = new FPSMeter(fps, {
+		interval: '60',
+		show: 'ms' });
 	var video = document.getElementById("video"); 
 	var constraints = {video: {facingMode: "environment" }};
 	
@@ -110,11 +113,14 @@
     	imageData = context.getImageData(0, 0, video_canvas.width, video_canvas.height);
 		processMarkers();
    	}	
-
 	
 	var scene = createScene(); //create aruco ardetector, create babylon scene	
-	
-	engine.runRenderLoop(function () {  //render loop w/requestAnimFrame. 
+		
+	//////////////////////////////////////
+	//render loop w/requestAnimFrame.
+	//////////////////////////////////////		
+	engine.runRenderLoop(function () {
+		fpsMeter.tickStart(); //fpsMeter
 		//detect markers, then set translation v and rotation quat using POSIT and glmatrix
 		snapshot(function() {
 			var markers = detector.detect(imageData);
@@ -123,10 +129,14 @@
 		
 			return markers;		
 		});
-		scene.render();		
+		scene.render();
+		fpsMeter.tick(); //fpsMeter
 	});
-	
+		
+	/////////////////////////////////////
 	//Events
+	/////////////////////////////////////
+	
 	window.addEventListener("resize", function () {
 		engine.resize();         
 	});
