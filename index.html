@@ -121,6 +121,7 @@
     	imageData = context.getImageData(0, 0, video_canvas.width, video_canvas.height);
 		processMarkers();
    	}
+	
 	var transforms;
 	var getObjectTransformed = function(){
 		var corners = markers[0].corners;
@@ -129,13 +130,23 @@
 		  	corner.y = (canvas.height / 2) - corner.y;
 		});
 		var pose = posit.pose(corners);
-		rotMatrixArray = [].concat.apply([],pose.bestRotation)
-		var quat = new BABYLON.Quaternion();			
-		quaternion = quat.fromRotationMatrix(BABYLON.Matrix.FromArray(rotMatrixArray))
 		
-		//
-		transforms = [rotMatrixArray, BABYLON.Matrix.FromArray(rotMatrixArray), quaternion];
-		return transforms;
+		//rotation
+		var rotMatrixArray = [].concat.apply([],pose.bestRotation);
+		var rotMatrix = Float32Array.from(rotMatrixArray);
+		var quaternion = quat.create();
+		quat.fromMat3(quaternion, rotMatrix);
+		//translation
+		var translationVector = Float32Array.from(pose.bestTranslation)
+		//scale
+		var scaleVector = Float32Array.from([1,1,1]);
+		
+		var transformMatrix = mat4.create();
+		mat4.fromRotationTranslationScale(quaternion, translationVector, scaleVector);
+		camera.freezeProjectionMatrix(transformMatrix);	
+		
+		transforms = [rotMatrix, quaternion, pose.bestTranslation, translationVector, scaleVector, transformMatrix];
+		
 	};
 	
 	var scene = createScene(); //create aruco ardetector, create babylon scene	
