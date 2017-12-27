@@ -143,9 +143,7 @@
 		var scaleVector = Float32Array.from([1,1,1]);
 			
 		mat4.fromRotationTranslationScale(transformMatrix, quaternion, translationVector, scaleVector);
-				
-		transforms = [pose,quaternion,translationVector,scaleVector];
-		return transforms;
+		transformMatrix = Float64Array.from(transformMatrix)	
 	};
 	
 	var scene = createScene(); //create aruco ardetector, create babylon scene	
@@ -161,11 +159,11 @@
 			return markers;		
 		});
 		getObjectTransformed();
-		camera.freezeProjectionMatrix(transformMatrix);	
+		
 		scene.render();
 		fpsMeter.tick(); //fpsMeter
 	});
-		
+	camera.freezeProjectionMatrix(BABYLON.Matrix.FromArray(transformMatrix));		
 	/////////////////////////////////////
 	//Events
 	/////////////////////////////////////
