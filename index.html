@@ -72,7 +72,9 @@
         var context = video_canvas.getContext("2d");
 	var imageData; 
 	var detector = new AR.Detector();
-	var engine = new BABYLON.Engine(canvas, true);  	
+	var markers; 	//array of AR.Marker objects 
+	var engine = new BABYLON.Engine(canvas, true); 
+		
 	
 	
 	var createScene = function () {
@@ -125,7 +127,7 @@
 		fpsMeter.tickStart(); //fpsMeter
 		//detect markers, then set translation v and rotation quat using POSIT and glmatrix
 		snapshot(function() {
-			var markers = detector.detect(imageData);
+			markers = detector.detect(imageData);
 		
 			//getObjectTransform
 		
