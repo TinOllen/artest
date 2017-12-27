@@ -142,11 +142,11 @@
 		var scaleVector = Float32Array.from([1,1,1]);
 		
 		var transformMatrix = mat4.create();
-		mat4.fromRotationTranslationScale(quaternion, translationVector, scaleVector);
+		mat4.fromRotationTranslationScale(transformMatrix, quaternion, translationVector, scaleVector);
 		camera.freezeProjectionMatrix(transformMatrix);	
 		
-		transforms = [rotMatrix, quaternion, pose.bestTranslation, translationVector, scaleVector, transformMatrix];
-		
+		transforms = [pose,quaternion,translationVector,scaleVector];
+		return transforms;
 	};
 	
 	var scene = createScene(); //create aruco ardetector, create babylon scene	
