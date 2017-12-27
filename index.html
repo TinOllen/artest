@@ -134,7 +134,7 @@
 		
 		//
 		
-		return quaternion;
+		return [rotMatrixArray, BABYLON.Matrix.FromArray(rotMatrixArray), quaternion];
 	};
 	
 	var scene = createScene(); //create aruco ardetector, create babylon scene	
