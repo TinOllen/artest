@@ -128,10 +128,11 @@
 		  	corner.y = (canvas.height / 2) - corner.y;
 		});
 		pose = posit.pose(corners);
+		var rotMatrix = [].concat.apply([],pose.bestRotation)
 		
 		//
 		
-		return pose;
+		return rotMatrix;
 	};
 	
 	var scene = createScene(); //create aruco ardetector, create babylon scene	
@@ -141,12 +142,12 @@
 	//////////////////////////////////////		
 	engine.runRenderLoop(function () {
 		fpsMeter.tickStart(); //fpsMeter
-		//detect markers, then set translation v and rotation quat using POSIT and glmatrix
+		//detect markers, then set translation v and rotation quat
 		snapshot(function() {
-			markers = detector.detect(imageData);		
-			getObjectTransformed();		
+			markers = detector.detect(imageData);				
 			return markers;		
 		});
+		getObjectTransformed();	
 		scene.render();
 		fpsMeter.tick(); //fpsMeter
 	});
