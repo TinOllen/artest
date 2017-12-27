@@ -120,14 +120,18 @@
     	imageData = context.getImageData(0, 0, video_canvas.width, video_canvas.height);
 		processMarkers();
    	}
-	
+	var pose;
 	var getObjectTransformed = function(){
 		var corners = markers[0].corners;
 		corners.forEach(function(corner){
 			corner.x = corner.x - (canvas.width / 2);
 		  	corner.y = (canvas.height / 2) - corner.y;
 		});
-		var pose = posit.pose(corners);			
+		pose = posit.pose(corners);
+		
+		//
+		
+		return pose;
 	};
 	
 	var scene = createScene(); //create aruco ardetector, create babylon scene	
