@@ -119,7 +119,7 @@
 		scene.clearColor = new BABYLON.Color4(0,0,0,0);
 		
 		// camera
-		var camera = new BABYLON.ArcRotateCamera("Camera", 1.0,  // <----------------debug: camera translation v set to 0,0,0
+		var camera = new BABYLON.ArcRotateCamera("Camera", 1.0,  
 		1.0, 12.0, BABYLON.Vector3.Zero(), scene);
 		camera.attachControl(canvas, false);
 		//camera.freezeProjectionMatrix(BABYLON.Matrix.FromArray(projectionMatrix));
@@ -151,7 +151,7 @@
     		imageData = context.getImageData(0, 0, video_canvas.width, video_canvas.height);
 		processMarkers();
    	}
-	
+	var transforms;
 	var getObjectTransformed = function(){ //
 		var corners = markers[0].corners;
 		corners.forEach(function(corner){
@@ -170,7 +170,8 @@
 		//scale
 		var scaleVector = Float32Array.from([1,1,1]);
 		
-		//transform 3d object here
+		transforms = [quaternion, translationVector, scaleVector];
+		return transforms;
 		
 		
 	};
