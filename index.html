@@ -75,13 +75,13 @@
 	var imageData; 
 	var markers; 	//array of AR.Marker objects 
 	var detector = new AR.Detector();
-	var modelSize = 50; // real size of marker (mm)
+	var modelSize = 1; // real size of marker (mm)
 	var posit = new POS.Posit(modelSize, canvas.width);
 	var engine = new BABYLON.Engine(canvas, true); 
 		
 	
 	//getcamera focal distance and fov
-	var focalX = 35; //default focal length :35 mm
+	var focalX = 40; //default focal length :40 mm
 	var focalY = focalX; // same by default
 	var nearClipPlaneZ = 0.05
 	var farClipPlaneZ = 1000
@@ -119,8 +119,7 @@
 		scene.clearColor = new BABYLON.Color4(0,0,0,0);
 		
 		// camera
-		var camera = new BABYLON.ArcRotateCamera("Camera", 0.0,  
-		0.0, 0.0, BABYLON.Vector3.Zero(), scene);
+		var camera = new BABYLON.TargetCamera("Camera", new BABYLON.Vector3(0.5,0.5,0.5), scene)
 		camera.attachControl(canvas, false);
 		var camProjectionMatrix = createProjectionMatrix(focalX,focalY,nearClipPlaneZ,farClipPlaneZ);
 		camera.freezeProjectionMatrix(BABYLON.Matrix.FromArray(camProjectionMatrix));
@@ -171,7 +170,7 @@
 				
 		object.position = BABYLON.Vector3.FromArray(translationVector);
 		object.rotationQuaternion = BABYLON.Quaternion.FromArray(quaternion);
-		object.scale = new BABYLON.Vector3(1,1,1);
+		object.scale = new BABYLON.Vector3(modelSize,modelSize,modelSize);
 		
 		/*
 		transforms = [quaternion, pose.bestTranslation];
@@ -192,7 +191,8 @@
 			markers = detector.detect(imageData);				
 			return markers;		
 		});
-		getObjectTransformed(scene.meshes[0]);		
+		getObjectTransformed(scene.meshes[0]);
+		scene.cameras[0].setTarget(scene.meshes[0].position);
 		scene.render();
 		fpsMeter.tick(); //fpsMeter
 	});
