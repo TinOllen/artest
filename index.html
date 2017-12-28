@@ -86,28 +86,30 @@
 	var focalY = focalX; // same by default
 	var nearClipPlaneZ = 0.05
 	var farClipPlaneZ = 1000
-		
-	//create projection matrix
-	var projectionMatrix = new Float64Array();
-	projectionMatrix[0] = 2.0 * focalX / canvas.width;
-	projectionMatrix[1] = 0.0;
-	projectionMatrix[2] = 0.0;
-	projectionMatrix[3] = 0.0;
-    
-	projectionMatrix[4] = 0.0;
-	projectionMatrix[5] = 2.0 * focalY / canvas.height;
-	projectionMatrix[6] = 0.0;
-	projectionMatrix[7] = 0.0;
 	
-	projectionMatrix[8] = 2.0 * (canvas.width/2) / canvas.width - 1.0;
-	projectionMatrix[9] = 2.0 * (canvas.height/2) / canvas.height - 1.0;	
-	projectionMatrix[10] = -( farClipPlaneZ + nearClipPlaneZ ) / ( farClipPlaneZ - nearClipPlaneZ );
-	projectionMatrix[11] = -1.0;
-    
-	projectionMatrix[12] = 0.0;
-	projectionMatrix[13] = 0.0;
-	projectionMatrix[14] = -2.0 * farClipPlaneZ * nearClipPlaneZ / ( farClipPlaneZ - nearClipPlaneZ );		
-	projectionMatrix[15] = 0.0;	
+	var createProjectionMatrix = function(focalX,focalY,nearClipPlaneZ,farClipPlaneZ){ 
+		var projectionMatrix = new Float64Array();
+		projectionMatrix[0] = 2.0 * focalX / canvas.width;
+		projectionMatrix[1] = 0.0;
+		projectionMatrix[2] = 0.0;
+		projectionMatrix[3] = 0.0;
+
+		projectionMatrix[4] = 0.0;
+		projectionMatrix[5] = 2.0 * focalY / canvas.height;
+		projectionMatrix[6] = 0.0;
+		projectionMatrix[7] = 0.0;
+
+		projectionMatrix[8] = 2.0 * (canvas.width/2) / canvas.width - 1.0;
+		projectionMatrix[9] = 2.0 * (canvas.height/2) / canvas.height - 1.0;	
+		projectionMatrix[10] = -( farClipPlaneZ + nearClipPlaneZ ) / ( farClipPlaneZ - nearClipPlaneZ );
+		projectionMatrix[11] = -1.0;
+
+		projectionMatrix[12] = 0.0;
+		projectionMatrix[13] = 0.0;
+		projectionMatrix[14] = -2.0 * farClipPlaneZ * nearClipPlaneZ / ( farClipPlaneZ - nearClipPlaneZ );		
+		projectionMatrix[15] = 0.0;
+		return projectionMatrix;
+	}
 		
 	
 	var createScene = function () {
@@ -120,7 +122,7 @@
 		var camera = new BABYLON.ArcRotateCamera("Camera", 1.0,  // <----------------debug: camera translation v set to 0,0,0
 		1.0, 12.0, BABYLON.Vector3.Zero(), scene);
 		camera.attachControl(canvas, false);
-		camera.freezeProjectionMatrix(BABYLON.Matrix.FromArray(projectionMatrix));
+		//camera.freezeProjectionMatrix(BABYLON.Matrix.FromArray(projectionMatrix));
 		
 		// Add a light
 		var light = new BABYLON.HemisphericLight("hemi",
