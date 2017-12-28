@@ -124,28 +124,13 @@
 		//rotation
 		var rotMatrixArray = [].concat.apply([],pose.bestRotation);
 		var rotMatrix = Float32Array.from(rotMatrixArray);
-		var quaternion = quat.create();
-		quat.fromMat3(quaternion, rotMatrix);
 		//translation
-		var translationVector = Float32Array.from(pose.bestTranslation)
+		var translationVector = Float32Array.from(pose.bestTranslation);			
 				
-				
-		transforms = [quaternion, pose.bestTranslation,rotMatrix];
-		return transforms;
-		
-		
-	};
+		transforms = [pose.bestTranslation,rotMatrix];
+		return transforms;		
+	}	
 	
-	
-	//////////////////////////////////////
-	//render loop w/requestAnimFrame.
-	//////////////////////////////////////		
-	/*window.requestAnimationFrame(function () {
-		//fpsMeter.tickStart(); //fpsMeter
-		
-			
-		fpsMeter.tick(); //fpsMeter
-	});*/
 	
 	var stop = false;
 	var frameCount = 0;
@@ -165,6 +150,10 @@
 		////////////////////////////  
 		/////drawing code here//////
 		////////////////////////////
+		snapshot(function() {
+			markers = detector.detect(imageData);				
+			return markers;		
+		});
 		fpsMeter.tick();
 	    }
 	}
