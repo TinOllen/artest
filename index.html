@@ -81,7 +81,35 @@
 	var engine = new BABYLON.Engine(canvas, true); 
 		
 	
+	//getcamera focal distance and fov
+	var focalX = 35; //default focal length :35 mm
+	var focalY = focal_x; // same by default
+	var nearClipPlaneZ = 0.05
+	var farClipPlaneZ = 1000
+		
+	//create projection matrix
+	var projectionMatrix = new Float64Array();
+	projectionMatrix[0] = 2.0 * focalX / canvas.width;
+	projectionMatrix[1] = 0.0;
+	projectionMatrix[2] = 0.0;
+	projectionMatrix[3] = 0.0;
+    
+	projectionMatrix[4] = 0.0;
+	projectionMatrix[5] = 2.0 * focalY / canvas.height;
+	projectionMatrix[6] = 0.0;
+	projectionMatrix[7] = 0.0;
 	
+	projectionMatrix[8] = 2.0 * (canvas.width/2) / canvas.width - 1.0;
+	projectionMatrix[9] = 2.0 * (canvas.height/2) / canvas.height - 1.0;	
+	projectionMatrix[10] = -( farClipPlaneZ + nearClipPlaneZ ) / ( farClipPlaneZ - nearClipPlaneZ );
+	projectionMatrix[11] = -1.0;
+    
+	projectionMatrix[12] = 0.0;
+	projectionMatrix[13] = 0.0;
+	projectionMatrix[14] = -2.0 * farClipPlaneZ * nearClipPlaneZ / ( farClipPlaneZ - nearClipPlaneZ );		
+	projectionMatrix[15] = 0.0;	
+		
+	//create camera projection matrix, fixProjectionMatrix
 	var createScene = function () {
 		
 		// Set the scene and background color
@@ -118,13 +146,12 @@
 	};
 	
 	var snapshot = function(processMarkers){
-       	context.drawImage(video, 0, 0, video_canvas.width, video_canvas.height);
-    	imageData = context.getImageData(0, 0, video_canvas.width, video_canvas.height);
+       		context.drawImage(video, 0, 0, video_canvas.width, video_canvas.height);
+    		imageData = context.getImageData(0, 0, video_canvas.width, video_canvas.height);
 		processMarkers();
    	}
 	
-	var transforms;
-	var getObjectTransformed = function(){
+	var getObjectTransformed = function(){ //
 		var corners = markers[0].corners;
 		corners.forEach(function(corner){
 			corner.x = corner.x - (canvas.width / 2);
@@ -141,9 +168,10 @@
 		var translationVector = Float32Array.from(pose.bestTranslation)
 		//scale
 		var scaleVector = Float32Array.from([1,1,1]);
-			
-		mat4.fromRotationTranslationScale(transformMatrix, quaternion, translationVector, scaleVector);
-		transformMatrix = Float64Array.from(transformMatrix)	
+		
+		//transform 3d object here
+		
+		
 	};
 	
 	var scene = createScene(); //create aruco ardetector, create babylon scene	
@@ -158,12 +186,11 @@
 			markers = detector.detect(imageData);				
 			return markers;		
 		});
-		getObjectTransformed();
-		
+		getObjectTransformed();		
 		scene.render();
 		fpsMeter.tick(); //fpsMeter
 	});
-	camera.freezeProjectionMatrix(BABYLON.Matrix.FromArray(transformMatrix));		
+	//camera.freezeProjectionMatrix(BABYLON.Matrix.FromArray(transformMatrix));		
 	/////////////////////////////////////
 	//Events
 	/////////////////////////////////////
