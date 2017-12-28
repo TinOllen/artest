@@ -75,7 +75,7 @@
 	var imageData; 
 	var markers; 	//array of AR.Marker objects 
 	var detector = new AR.Detector();
-	var modelSize = 0.6; // real size of marker (mm)
+	var modelSize = 35; // real size of marker (mm)
 	var posit = new POS.Posit(modelSize, canvas.width);
 	var engine = new BABYLON.Engine(canvas, true); 
 		
@@ -119,10 +119,9 @@
 		scene.clearColor = new BABYLON.Color4(0,0,0,0);
 		
 		// camera
-		var camera = new BABYLON.TargetCamera("Camera", new BABYLON.Vector3(1,1,1), scene)
-		camera.attachControl(canvas, false);
-		//var camProjectionMatrix = createProjectionMatrix(focalX,focalY,nearClipPlaneZ,farClipPlaneZ);
-		//camera.freezeProjectionMatrix(BABYLON.Matrix.FromArray(camProjectionMatrix));
+		var camera = new BABYLON.Camera("Camera", new BABYLON.Vector3(0,0,-1), scene)
+		//camera.attachControl(canvas, false);
+		
 		
 		// Add a light
 		var light = new BABYLON.HemisphericLight("hemi",
@@ -172,9 +171,9 @@
 		object.rotationQuaternion = BABYLON.Quaternion.FromArray(quaternion);
 		object.scale = new BABYLON.Vector3(modelSize,modelSize,modelSize);
 		
-		/*
-		transforms = [quaternion, pose.bestTranslation];
-		return transforms;*/
+		
+		transforms = [quaternion, pose.bestTranslation,rotMatrix];
+		return transforms;
 		
 		
 	};
@@ -191,6 +190,8 @@
 			markers = detector.detect(imageData);				
 			return markers;		
 		});
+		var camProjectionMatrix = createProjectionMatrix(focalX,focalY,nearClipPlaneZ,farClipPlaneZ);
+		scene.activeCamera.freezeProjectionMatrix(BABYLON.Matrix.FromArray(camProjectionMatrix));
 		//getObjectTransformed(scene.meshes[0]);
 		scene.cameras[0].setTarget(scene.meshes[0].position);
 		scene.render();
