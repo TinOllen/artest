@@ -18,7 +18,7 @@
 	
 	#renderCanvas {
 		position: absolute;
-		z-index: 99;
+		z-index: 998;
 		left: 0;
 		top: 0;
 		/*width: 640;
@@ -40,7 +40,7 @@
 	
 	<div id="canvasZone">
 		<canvas id="contours" width="320" height="240" style="z-index: 999" ></canvas>
-		<canvas id="renderCanvas" width="320" height="240" ></canvas>
+		<!-- <canvas id="renderCanvas" width="320" height="240" ></canvas> -->
 		<!-- <video id="video" src="output_4.ogg" width="320" height="240" autoplay></video> -->
 		<img id="video" src="marker.png" width="320" height="240">
 		<div id="fps"></div>
@@ -156,7 +156,7 @@
 			if(markers.count>0){
 				var contours = document.getElementById('contours');
 				ctx = contours.getContext('2d');
-				ctx.clearRect(0, 0, contours.width, contours.height);
+				//ctx.clearRect(0, 0, contours.width, contours.height);
 			        markers.forEach(function(marker){
 					var c = marker.corners;
 					ctx.beginPath();
@@ -165,7 +165,7 @@
 					ctx.lineTo(c[2].x,c[2].y);
 					ctx.lineTo(c[3].x,c[3].y);
 					ctx.lineTo(c[0].x,c[0].y);
-					ctx.strokeStyle="white";
+					ctx.strokeStyle="red";
 					ctx.stroke();
 				});
 			}
