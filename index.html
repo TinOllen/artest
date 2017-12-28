@@ -88,7 +88,7 @@
 	var farClipPlaneZ = 1000
 	
 	var createProjectionMatrix = function(focalX,focalY,nearClipPlaneZ,farClipPlaneZ){ 
-		var projectionMatrix = new Float64Array();
+		var projectionMatrix = new Float32Array();
 		projectionMatrix[0] = 2.0 * focalX / canvas.width;
 		projectionMatrix[1] = 0.0;
 		projectionMatrix[2] = 0.0;
