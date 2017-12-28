@@ -75,11 +75,7 @@
 	}
 	
 	var canvas = document.getElementById("renderCanvas"); //canvas for rendering 3d
-	canvas.width = window.innerWidth;
-	canvas.height = window.innerHeight;
 	var video_canvas = document.createElement("canvas"); //canvas for video capture. Not appended. Same size as "renderCanvas"
-        video_canvas.width = canvas.width;
-	video_canvas.height = canvas.height;
         var context = video_canvas.getContext("2d");
 	var imageData; 
 	var markers; 	//array of AR.Marker objects 
