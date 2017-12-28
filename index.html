@@ -39,6 +39,7 @@
 <body>
 	
 	<div id="canvasZone">
+		<canvas id="contours" width="320" height="240" ></canvas>
 		<canvas id="renderCanvas" width="320" height="240" ></canvas>
 		<!-- <video id="video" src="output_4.ogg" width="320" height="240" autoplay></video> -->
 		<img id="video" src="marker.png" width="320" height="240">
@@ -110,7 +111,7 @@
 	var snapshot = function(processMarkers){		
        		context.drawImage(video, 0, 0, video_canvas.width, video_canvas.height);
     		imageData = context.getImageData(0, 0, video_canvas.width, video_canvas.height);
-		processMarkers();
+		processMarkers()
    	}
 	var transforms;
 	var getObjectTransformed = function(object){ //object is BABYLON.Mesh 
@@ -151,7 +152,22 @@
 		/////drawing code here//////
 		////////////////////////////
 		snapshot(function() {
-			markers = detector.detect(imageData);				
+			markers = detector.detect(imageData);
+			if(markers.count>0){
+				var contours = document.getElementById('contours');
+				ctx = contours.getContext('2d');
+				ctx.clearRect(0, 0, contours.width, contours.height);
+			        markers.forEach(function(marker){
+					ctx.beginPath();
+					ctx.moveTo(marker[0].x,marker[0].y);
+					ctx.lineTo(marker[1].x,marker[1].y);
+					ctx.lineTo(marker[2].x,marker[2].y);
+					ctx.lineTo(marker[3].x,marker[3].y);
+					ctx.lineTo(marker[0].x,marker[0].y);
+					ctx.strokeStyle="white";
+					ctx.stroke();
+				});
+			}
 			return markers;		
 		});
 		fpsMeter.tick();
