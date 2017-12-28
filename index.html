@@ -163,7 +163,7 @@
 		////////////////////////////
 		snapshot(function() {
 			markers = detector.detect(imageData);
-			if(markers.count>0){
+			if(markers.length>0){
 				var contours = document.getElementById('contours');
 				ctx = contours.getContext('2d');
 				ctx.clearRect(0, 0, contours.width, contours.height);
