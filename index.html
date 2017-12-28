@@ -77,7 +77,6 @@
 	var detector = new AR.Detector();
 	var modelSize = 50; // real size of marker (mm)
 	var posit = new POS.Posit(modelSize, canvas.width);
-	var transformMatrix = mat4.create();
 	var engine = new BABYLON.Engine(canvas, true); 
 		
 	
@@ -170,7 +169,7 @@
 		//scale
 		var scaleVector = Float32Array.from([1,1,1]);
 		
-		transforms = [quaternion, translationVector, scaleVector];
+		transforms = [quaternion, pose.bestTranslation];
 		return transforms;
 		
 		
