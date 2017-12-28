@@ -49,9 +49,9 @@
 <body>
 	
 	<div id="canvasZone">
-		<canvas id="contours" width="320" height="240" style="z-index: 999" ></canvas>
-		<canvas id="renderCanvas" width="320" height="240" ></canvas>
-		<video id="video" src="markers.ogg" width="320" height="240" autoplay></video>
+		<canvas id="contours" style="z-index: 999" ></canvas>
+		<canvas id="renderCanvas" ></canvas>
+		<video id="video" autoplay></video>
 		<!--<img id="video" src="marker.png" width="320" height="240">-->
 		<div id="fps"></div>
 		
@@ -67,17 +67,19 @@
 	var video = document.getElementById("video"); 
 	var constraints = {video: {facingMode: "environment" }};
 	
-	/*if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {         // <--------------debug: getUserMedia turned off for non interactive mode
+	if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {         // <--------------debug: getUserMedia turned off for non interactive mode
     	navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
         video.src = window.URL.createObjectURL(stream);
         video.play();
 	});
-	}*/ 
+	}
 	
 	var canvas = document.getElementById("renderCanvas"); //canvas for rendering 3d
+	canvas.width = window.innerWidth;
+	canvas.height = window.innerHeight;
 	var video_canvas = document.createElement("canvas"); //canvas for video capture. Not appended. Same size as "renderCanvas"
-        video_canvas.width = 320;
-	video_canvas.height = 240;
+        video_canvas.width = canvas.width;
+	video_canvas.height = canvas.height;
         var context = video_canvas.getContext("2d");
 	var imageData; 
 	var markers; 	//array of AR.Marker objects 
@@ -165,6 +167,8 @@
 			markers = detector.detect(imageData);
 			if(markers.length>0){
 				var contours = document.getElementById('contours');
+				contours.width = canvas.width;
+				contours.height = canvas.height;
 				ctx = contours.getContext('2d');
 				ctx.clearRect(0, 0, contours.width, contours.height);
 			        markers.forEach(function(marker){
