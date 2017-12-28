@@ -158,12 +158,13 @@
 				ctx = contours.getContext('2d');
 				ctx.clearRect(0, 0, contours.width, contours.height);
 			        markers.forEach(function(marker){
+					var c = marker.corners;
 					ctx.beginPath();
-					ctx.moveTo(marker[0].x,marker[0].y);
-					ctx.lineTo(marker[1].x,marker[1].y);
-					ctx.lineTo(marker[2].x,marker[2].y);
-					ctx.lineTo(marker[3].x,marker[3].y);
-					ctx.lineTo(marker[0].x,marker[0].y);
+					ctx.moveTo(c[0].x,c[0].y);
+					ctx.lineTo(c[1].x,c[1].y);
+					ctx.lineTo(c[2].x,c[2].y);
+					ctx.lineTo(c[3].x,c[3].y);
+					ctx.lineTo(c[0].x,c[0].y);
 					ctx.strokeStyle="white";
 					ctx.stroke();
 				});
