@@ -77,8 +77,7 @@
 	var detector = new AR.Detector();
 	var modelSize = 35; // real size of marker (mm)
 	var posit = new POS.Posit(modelSize, canvas.width);
-	var engine = new BABYLON.Engine(canvas, true); 
-		
+
 	
 	//getcamera focal distance and fov
 	var focalX = 40; //default focal length :40 mm
@@ -110,40 +109,7 @@
 		
 		return Float32Array.from(projectionMatrix);
 	}
-		
 	
-	var createScene = function () {
-		
-		// Set the scene and background color
-		var scene = new BABYLON.Scene(engine);
-		scene.clearColor = new BABYLON.Color4(0,0,0,0);
-		
-		// camera
-		var camera = new BABYLON.Camera("Camera", new BABYLON.Vector3(0,0,-1), scene)
-		//camera.attachControl(canvas, false);
-		
-		
-		// Add a light
-		var light = new BABYLON.HemisphericLight("hemi",
-		new BABYLON.Vector3(0, 1, 0), scene);
-		
-		// Reflect the light off the ground to light the mesh bottom
-		light.groundColor = new BABYLON.Color3(0.5, 0, 0.5);
-		
-		// Create a builtin shape
-		var box = BABYLON.Mesh.CreateBox("mesh", 3, scene);
-				
-		// Define a material
-		var material = new BABYLON.StandardMaterial("std", scene);
-		material.diffuseColor = new BABYLON.Color3(0.5, 0, 0.5);
-		
-		
-		// Apply the material
-		box.material = material;
-		box.material.alpha = 0.5;
-		
-		return scene;
-	};
 	
 	var snapshot = function(processMarkers){
        		context.drawImage(video, 0, 0, video_canvas.width, video_canvas.height);
@@ -167,46 +133,30 @@
 		//translation
 		var translationVector = Float32Array.from(pose.bestTranslation)
 				
-		object.position = BABYLON.Vector3.FromArray(translationVector);
-		object.rotationQuaternion = BABYLON.Quaternion.FromArray(quaternion);
-		object.scale = new BABYLON.Vector3(modelSize,modelSize,modelSize);
-		
-		
+				
 		transforms = [quaternion, pose.bestTranslation,rotMatrix];
 		return transforms;
 		
 		
 	};
 	
-	var scene = createScene(); //create aruco ardetector, create babylon scene	
-		
+	
 	//////////////////////////////////////
 	//render loop w/requestAnimFrame.
 	//////////////////////////////////////		
-	engine.runRenderLoop(function () {
+	window.requestAnimationFrame(function () {
 		fpsMeter.tickStart(); //fpsMeter
-		//detect markers, then set translation v and rotation quat
-		snapshot(function() {
+		
+		snapshot(function() { //detect markers, then set translation v and rotation quat
 			markers = detector.detect(imageData);				
 			return markers;		
 		});
-		var camProjectionMatrix = createProjectionMatrix(focalX,focalY,nearClipPlaneZ,farClipPlaneZ);
-		scene.activeCamera.freezeProjectionMatrix(BABYLON.Matrix.FromArray(camProjectionMatrix));
-		//getObjectTransformed(scene.meshes[0]);
-		
-		scene.render();
+
+		getObjectTransformed(scene.meshes[0]);		
 		fpsMeter.tick(); //fpsMeter
 	});
 			
-	/////////////////////////////////////
-	//Events
-	/////////////////////////////////////
-	
-	window.addEventListener("resize", function () {
-		engine.resize();         
-	});
-	
-	
+
 	</script>
 	
 	
