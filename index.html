@@ -3,14 +3,10 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	
-	<title>Babylon.js sample code</title>
-	
-	<script src="glmatrix.js"></script>
-	<script src="cv.js"></script>
-	<script src="babylon.custom.js"></script>
+	<title>sample code</title>
+	<script src="cv.js"></script>	
 	<script src="fpsmeter.js"></script>
-
-
+	
 	<style>
 	html, body {
 		overflow: hidden;
@@ -145,7 +141,7 @@
 	//render loop w/requestAnimFrame.
 	//////////////////////////////////////		
 	window.requestAnimationFrame(function () {
-		fpsMeter.tickStart(); //fpsMeter
+		//fpsMeter.tickStart(); //fpsMeter
 		
 		snapshot(function() { //detect markers, then set translation v and rotation quat
 			markers = detector.detect(imageData);				
