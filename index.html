@@ -193,7 +193,7 @@
 		var camProjectionMatrix = createProjectionMatrix(focalX,focalY,nearClipPlaneZ,farClipPlaneZ);
 		scene.activeCamera.freezeProjectionMatrix(BABYLON.Matrix.FromArray(camProjectionMatrix));
 		//getObjectTransformed(scene.meshes[0]);
-		scene.cameras[0].setTarget(scene.meshes[0].position);
+		
 		scene.render();
 		fpsMeter.tick(); //fpsMeter
 	});
