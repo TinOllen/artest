@@ -192,11 +192,11 @@
 			markers = detector.detect(imageData);				
 			return markers;		
 		});
-		getObjectTransformed();		
+		getObjectTransformed(scene.meshes[0]);		
 		scene.render();
 		fpsMeter.tick(); //fpsMeter
 	});
-	//camera.freezeProjectionMatrix(BABYLON.Matrix.FromArray(transformMatrix));		
+			
 	/////////////////////////////////////
 	//Events
 	/////////////////////////////////////
