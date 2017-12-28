@@ -75,7 +75,7 @@
 	var imageData; 
 	var markers; 	//array of AR.Marker objects 
 	var detector = new AR.Detector();
-	var modelSize = 1; // real size of marker (mm)
+	var modelSize = 0.1; // real size of marker (mm)
 	var posit = new POS.Posit(modelSize, canvas.width);
 	var engine = new BABYLON.Engine(canvas, true); 
 		
@@ -119,10 +119,10 @@
 		scene.clearColor = new BABYLON.Color4(0,0,0,0);
 		
 		// camera
-		var camera = new BABYLON.TargetCamera("Camera", new BABYLON.Vector3(0.5,0.5,0.5), scene)
+		var camera = new BABYLON.TargetCamera("Camera", new BABYLON.Vector3(1,1,1), scene)
 		camera.attachControl(canvas, false);
-		var camProjectionMatrix = createProjectionMatrix(focalX,focalY,nearClipPlaneZ,farClipPlaneZ);
-		camera.freezeProjectionMatrix(BABYLON.Matrix.FromArray(camProjectionMatrix));
+		//var camProjectionMatrix = createProjectionMatrix(focalX,focalY,nearClipPlaneZ,farClipPlaneZ);
+		//camera.freezeProjectionMatrix(BABYLON.Matrix.FromArray(camProjectionMatrix));
 		
 		// Add a light
 		var light = new BABYLON.HemisphericLight("hemi",
