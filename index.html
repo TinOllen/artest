@@ -107,6 +107,7 @@
 		projectionMatrix[13] = 0.0;
 		projectionMatrix[14] = -2.0 * farClipPlaneZ * nearClipPlaneZ / ( farClipPlaneZ - nearClipPlaneZ );		
 		projectionMatrix[15] = 0.0;
+		
 		return Float32Array.from(projectionMatrix);
 	}
 		
@@ -118,10 +119,11 @@
 		scene.clearColor = new BABYLON.Color4(0,0,0,0);
 		
 		// camera
-		var camera = new BABYLON.ArcRotateCamera("Camera", 1.0,  
-		1.0, 12.0, BABYLON.Vector3.Zero(), scene);
+		var camera = new BABYLON.ArcRotateCamera("Camera", 0.0,  
+		0.0, 0.0, BABYLON.Vector3.Zero(), scene);
 		camera.attachControl(canvas, false);
-		//camera.freezeProjectionMatrix(BABYLON.Matrix.FromArray(projectionMatrix));
+		var camProjectionMatrix = createProjectionMatrix(focalX,focalY,nearClipPlaneZ,farClipPlaneZ);
+		camera.freezeProjectionMatrix(BABYLON.Matrix.FromArray(camProjectionMatrix));
 		
 		// Add a light
 		var light = new BABYLON.HemisphericLight("hemi",
@@ -151,7 +153,7 @@
 		processMarkers();
    	}
 	var transforms;
-	var getObjectTransformed = function(){ //
+	var getObjectTransformed = function(object){ //object is BABYLON.Mesh 
 		var corners = markers[0].corners;
 		corners.forEach(function(corner){
 			corner.x = corner.x - (canvas.width / 2);
@@ -166,11 +168,14 @@
 		quat.fromMat3(quaternion, rotMatrix);
 		//translation
 		var translationVector = Float32Array.from(pose.bestTranslation)
-		//scale
-		var scaleVector = Float32Array.from([1,1,1]);
+				
+		object.position = BABYLON.vector3.FromArray(translationVector);
+		object.rotationQuaternion = BABYLON.Quaternion.FromArray(quaternion);
+		object.scale = new BABYLON.vector3(1,1,1);
 		
+		/*
 		transforms = [quaternion, pose.bestTranslation];
-		return transforms;
+		return transforms;*/
 		
 		
 	};
