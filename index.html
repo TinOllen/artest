@@ -17,38 +17,33 @@
 	}
 	
 	/*#renderCanvas {
-		/*position: fixed;*/
-		z-index: 2;
-		/*left: 0;
-		top: 0;*/
+		position: absolute;		
 		width: 100%;
 		height: 100%;
+		z-index: 4;
 		touch-action: none;
 	}*/
 		
 	#contours {
-		position: absolute;
-		z-index: 999;
-		left: 0;
-		top: 0;		
-		touch-action: none;
+		position: absolute;		
+		width: 100%;
+		height: 100%;
+		z-index: 3;
 	}
 	
 	#video {
 		position: absolute;
-		z-index: 1;
-		left: 0;
-		top: 0;
 		width: 100%;
 		height: 100%;
+		z-index: 1;
 	}
 	</style>
 </head>
 <body>
 	
 	<div id="canvasZone">
-		<canvas id="contours" style="z-index: 999" ></canvas>
-		<canvas id="renderCanvas" ></canvas>
+		<canvas id="contours"></canvas>
+		<canvas id="renderCanvas" ></canvas>		
 		<video id="video" autoplay></video>
 		<!--<img id="video" src="marker.png" width="320" height="240">-->
 		<div id="fps" style="display:none"></div>
@@ -190,7 +185,7 @@
 	    animate();
 	}
 	
-	startAnimating(28);
+	startAnimating(60);
 
 	</script>
 	
