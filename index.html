@@ -18,7 +18,17 @@
 	
 	#renderCanvas {
 		position: absolute;
-		z-index: 998;
+		z-index: 99;
+		left: 0;
+		top: 0;
+		/*width: 640;
+		height: 480;*/
+		touch-action: none;
+	}
+		
+	#contours {
+		position: absolute;
+		z-index: 999;
 		left: 0;
 		top: 0;
 		/*width: 640;
@@ -156,7 +166,7 @@
 			if(markers.count>0){
 				var contours = document.getElementById('contours');
 				ctx = contours.getContext('2d');
-				//ctx.clearRect(0, 0, contours.width, contours.height);
+				ctx.clearRect(0, 0, contours.width, contours.height);
 			        markers.forEach(function(marker){
 					var c = marker.corners;
 					ctx.beginPath();
