@@ -69,7 +69,9 @@
 	
 	var canvas = document.getElementById("renderCanvas"); //canvas for rendering 3d
 	var video_canvas = document.createElement("canvas"); //canvas for video capture. Not appended. Same size as "renderCanvas"
-        var context = video_canvas.getContext("2d");
+        video_canvas.width = video.width;
+	video_canvas.height = video.height;	
+	var context = video_canvas.getContext("2d");
 	var imageData; 
 	var markers; 	//array of AR.Marker objects 
 	var detector = new AR.Detector();
@@ -156,8 +158,7 @@
 			markers = detector.detect(imageData);
 			if(markers.length>0){
 				var contours = document.getElementById('contours');
-				contours.width = canvas.width;
-				contours.height = canvas.height;
+		
 				ctx = contours.getContext('2d');
 				ctx.clearRect(0, 0, contours.width, contours.height);
 			        markers.forEach(function(marker){
