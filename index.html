@@ -47,8 +47,8 @@
 	</div>
 	
 	<script>
-	var fps = document.getElementById("fps");
-	var fpsMeter = new FPSMeter(fps, {
+	var fpsEl = document.getElementById("fps");
+	var fpsMeter = new FPSMeter(fpsEl, {
 		interval: '60',
 		show: 'ms',
 		zIndex: 9999,
@@ -140,18 +140,43 @@
 	//////////////////////////////////////
 	//render loop w/requestAnimFrame.
 	//////////////////////////////////////		
-	window.requestAnimationFrame(function () {
+	/*window.requestAnimationFrame(function () {
 		//fpsMeter.tickStart(); //fpsMeter
 		
-		snapshot(function() { //detect markers, then set translation v and rotation quat
-			markers = detector.detect(imageData);				
-			return markers;		
-		});
-
-		//getObjectTransformed(scene.meshes[0]);		
-		fpsMeter.tick(); //fpsMeter
-	});
 			
+		fpsMeter.tick(); //fpsMeter
+	});*/
+	
+	var stop = false;
+	var frameCount = 0;
+	var fps, fpsInterval, startTime, now, then, elapsed;
+		
+	var animate = function(timestamp) {	    
+	    requestAnimationFrame(animate); // request another frame
+	    // calc elapsed time since last loop
+	    now = Date.now();
+	    elapsed = now - then;
+	    
+	    // if enough time has elapsed, draw the next frame
+	    if (elapsed > fpsInterval) {		
+		then = now - (elapsed % fpsInterval);		
+		
+		fpsMeter.tickStart(); //fpsMeter
+		////////////////////////////  
+		/////drawing code here//////
+		////////////////////////////
+		fpsMeter.tick();
+	    }
+	}
+	// initialize the timer variables and start the animation
+	var startAnimating = function(fps) {
+	    fpsInterval = 1000 / fps;
+	    then = Date.now();
+	    startTime = then;
+	    animate();
+	}
+	
+	startAnimating(60);
 
 	</script>
 	
