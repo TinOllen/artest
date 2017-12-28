@@ -109,19 +109,18 @@
 	projectionMatrix[14] = -2.0 * farClipPlaneZ * nearClipPlaneZ / ( farClipPlaneZ - nearClipPlaneZ );		
 	projectionMatrix[15] = 0.0;	
 		
-	//create camera projection matrix, fixProjectionMatrix
+	
 	var createScene = function () {
 		
 		// Set the scene and background color
 		var scene = new BABYLON.Scene(engine);
 		scene.clearColor = new BABYLON.Color4(0,0,0,0);
 		
-		// Create a camera
+		// camera
 		var camera = new BABYLON.ArcRotateCamera("Camera", 1.0,  // <----------------debug: camera translation v set to 0,0,0
 		1.0, 12.0, BABYLON.Vector3.Zero(), scene);
-		
-		// Attach camera to canvas
 		camera.attachControl(canvas, false);
+		camera.freezeProjectionMatrix(BABYLON.Matrix.FromArray(projectionMatrix));
 		
 		// Add a light
 		var light = new BABYLON.HemisphericLight("hemi",
