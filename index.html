@@ -169,9 +169,9 @@
 		//translation
 		var translationVector = Float32Array.from(pose.bestTranslation)
 				
-		object.position = BABYLON.vector3.FromArray(translationVector);
+		object.position = BABYLON.Vector3.FromArray(translationVector);
 		object.rotationQuaternion = BABYLON.Quaternion.FromArray(quaternion);
-		object.scale = new BABYLON.vector3(1,1,1);
+		object.scale = new BABYLON.Vector3(1,1,1);
 		
 		/*
 		transforms = [quaternion, pose.bestTranslation];
